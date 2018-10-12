@@ -21,9 +21,9 @@ public class Intake_Subsys extends Subsystem {
   
   public Spark  leftIntakeMotor, rightIntakeMotor;
 
-  private static Intake_Subsys intake_Subsys;
+  private static Intake_Subsys intake = null;
 
-  public Intake_Subsys()
+  private Intake_Subsys()
   {
     leftIntakeMotor = new Spark(RobotMap.leftintakeMotor);
     rightIntakeMotor = new Spark(RobotMap.rightIntakeMotor);
@@ -51,9 +51,9 @@ public class Intake_Subsys extends Subsystem {
 
   public static Intake_Subsys getInstance()
   {
-    if(intake_Subsys == null)
-      intake_Subsys = new Intake_Subsys();
-    return intake_Subsys;
+    if(intake == null)
+      intake = new Intake_Subsys();
+    return intake;
   }
 
   @Override

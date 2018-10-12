@@ -1,32 +1,53 @@
 package frc.robot.util;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class E3Talon{
+public class E3Talon extends TalonSRX{
 
-    private static E3Talon talonConfigurer;
+    
 
-    public E3Talon()
+    public E3Talon(int portNumber)
     {
+        super(portNumber);
+        //configTalon();
     }
 
 
-    public void configTalon(TalonSRX talon)
+    public void configTalon()
     {
-    talon.configPeakCurrentLimit(40, 0);
-    talon.enableCurrentLimit(true);
-    talon.configContinuousCurrentLimit(40, 0); 
+    this.configPeakCurrentLimit(40, 0);
+    this.enableCurrentLimit(true);
+    this.configContinuousCurrentLimit(40, 0); 
 
-    talon.configPeakOutputForward(1, 0);
-    talon.configPeakOutputReverse(-1, 0);
+    this.configPeakOutputForward(1, 0);
+    this.configPeakOutputReverse(-1, 0);
     }
 
-    public static E3Talon getInstance()
+    public void set(double pow)
     {
-        if(talonConfigurer == null)
-            talonConfigurer = new E3Talon();
-        return talonConfigurer;   
+        super.set(ControlMode.PercentOutput, pow);
     }
+
+    public void setFollower(E3Talon masterTalonSRX)
+    {
+        super.set(ControlMode.Follower, masterTalonSRX.getDeviceID());
+    }
+
+    public void setPID(int kSlot, double kP, double kI, double kD, int kTimeoutMs)
+    {
+        super.config_kP(kSlot, kP, kTimeoutMs);
+        super.config_kI(kSlot, kI, kTimeoutMs);
+        super.config_kD(kSlot, kD, kTimeoutMs);
+    }
+
+    public void setEncoder(int kSlot, int kTimeoutMs)
+    {
+        super.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, kSlot, kTimeoutMs);
+    }
+
+
 
 
 }

@@ -7,40 +7,28 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+public class PIDDriveCommand extends Command {
+  double goal;
+  public PIDDriveCommand() {
 
-public class ActuateElevatorCommand extends Command {
-  public ActuateElevatorCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_Elevator_Subsys);
+    requires(Robot.m_DriveTrain_Subsys);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    switch(Robot.m_oi.getDrivetype())
-    {
-      case DUO:
-        Robot.m_Elevator_Subsys.actuateElevator(Robot.m_oi.elevatorControlDouble(Robot.m_oi.getIntakeController()));
-        System.out.println("Setting Duo Elevator");
-        break;
-      case SOLO:
-        Robot.m_Elevator_Subsys.actuateElevator(Robot.m_oi.elevatorControlDouble(Robot.m_oi.getDriveController()));
-        System.out.println("Setting Solo Elevator");
-        break;
-
-    }
-    
-
+    Robot.m_DriveTrain_Subsys.drivePID(120);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -58,6 +46,5 @@ public class ActuateElevatorCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_Elevator_Subsys.stopElevator();
   }
 }

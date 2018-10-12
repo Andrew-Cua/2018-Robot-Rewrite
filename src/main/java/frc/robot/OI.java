@@ -8,22 +8,27 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.*;
+import frc.robot.util.*;
+
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+  private Drivetype drive = Drivetype.SOLO;
 
   public OI()
   {
-    collectBoxButton.whileHeld(new CollectBoxCommand());
-    shootBoxButton.whileHeld(new ShootBoxCommand());
-    raiseIntakeButton.whileHeld(new RaiseIntakeCommand());
-    lowerIntakeButton.whileHeld(new LowerIntakeCommand());
+    //collectBoxButton.whileHeld(new CollectBoxCommand());
+    //shootBoxButton.whileHeld(new ShootBoxCommand());
+    //raiseIntakeButton.whileHeld(new RaiseIntakeCommand());
+    //lowerIntakeButton.whileHeld(new LowerIntakeCommand());
+    //PIDButton.whenPressed(new PIDDriveCommand());
   }
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
@@ -52,21 +57,68 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
-private XboxController driveController = new XboxController(RobotMap.driveController);
-private XboxController intakeController = new XboxController(RobotMap.intakeController);
+  private XboxController driveController = new XboxController(RobotMap.driveController);
+  private XboxController intakeController = new XboxController(RobotMap.intakeController);
 
-public Button collectBoxButton  = new JoystickButton(intakeController,5),
+/*public Button collectBoxButton  = new JoystickButton(intakeController,5),
               shootBoxButton    = new JoystickButton(intakeController,6),
               raiseIntakeButton = new JoystickButton(intakeController,3),
               lowerIntakeButton = new JoystickButton(intakeController,1);
+public Button PIDButton = new JoystickButton(driveController, 2); */
 
-public XboxController getDriveController()
-{
+  public Button collectBoxButton,
+                shootBoxButton,
+                raiseIntakeButton,
+                lowerIntakeButton;
+
+
+  public void setDriver(Drivetype drive)
+  {
+    switch(drive)
+    {
+      case SOLO:
+        collectBoxButton  = new JoystickButton(driveController, 5);
+        shootBoxButton    = new JoystickButton(driveController, 6);
+        raiseIntakeButton = new JoystickButton(driveController, 3);
+        lowerIntakeButton = new JoystickButton(driveController, 1);
+        System.out.println("Setting Solo");
+        break;
+      case DUO:
+        collectBoxButton  = new JoystickButton(intakeController, 5);
+        shootBoxButton    = new JoystickButton(intakeController, 6);
+        raiseIntakeButton = new JoystickButton(intakeController, 3);
+        lowerIntakeButton = new JoystickButton(intakeController, 1);
+        System.out.println("Setting Duo");
+        break;
+    } 
+  }
+
+  public double elevatorControlDouble(XboxController vatorController)
+  {
+    double raise = vatorController.getTriggerAxis(Hand.kLeft);
+    double lower = -vatorController.getTriggerAxis(Hand.kRight);
+    return raise + lower;
+  }
+
+
+  public XboxController getIntakeController()
+  {
+    return intakeController;
+  }
+
+  public Drivetype getDrivetype()
+  {
+    return drive;
+  }
+
+  public void setDrivertype(Drivetype drive)
+  {
+    this.drive = drive;
+  }
+  
+  public XboxController getDriveController()
+  {
   return driveController;
-}
-public XboxController getIntakeController()
-{
-  return intakeController;
-}
+  }
 
 }

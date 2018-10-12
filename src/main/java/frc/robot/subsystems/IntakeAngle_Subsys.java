@@ -7,13 +7,11 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
+import frc.robot.util.*;
 
 
 /**
@@ -24,25 +22,25 @@ public class IntakeAngle_Subsys extends Subsystem {
   // here. Call these from Commands.
 
 
-  public TalonSRX angleControlMotor;
+  public E3Talon angleControlMotor;
   private static IntakeAngle_Subsys intakeAngle_Subsys;
-  public IntakeAngle_Subsys()
+  private IntakeAngle_Subsys()
   {
-    angleControlMotor = new TalonSRX(RobotMap.intakeAngleMotor);
-    Robot.m_TalonConfigurer.configTalon(angleControlMotor);
+    angleControlMotor = new E3Talon(RobotMap.intakeAngleMotor);
+   // Robot.m_TalonConfigurer.configTalon(angleControlMotor);
   }
 
   public void raiseIntake()
   {
-    angleControlMotor.set(ControlMode.PercentOutput, 1);
+    angleControlMotor.set(1);
   }
   public void lowerIntake()
   {
-    angleControlMotor.set(ControlMode.PercentOutput, -1);
+    angleControlMotor.set(-1);
   }
   public void noPower()
   {
-    angleControlMotor.set(ControlMode.PercentOutput, 0);
+    angleControlMotor.set(0);
   }
 
 

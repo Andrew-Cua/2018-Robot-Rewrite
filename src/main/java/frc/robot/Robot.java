@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.PIDDriveCommand;
 import frc.robot.subsystems.DriveTrain_Subsys;
 import frc.robot.subsystems.Elevator_Subsys;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeAngle_Subsys;
 import frc.robot.subsystems.Intake_Subsys;
+import frc.robot.util.Drivetype;
 import frc.robot.util.E3Talon;
 
 /**
@@ -35,9 +37,10 @@ public class Robot extends TimedRobot {
   public static Intake_Subsys m_Intake_Subsys;
   public static IntakeAngle_Subsys m_IntakeAngle_Subsys;
   public static E3Talon m_TalonConfigurer;
-
+  public static Command autCommand;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Drivetype> m_driveChooser = new SendableChooser<Drivetype>();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -45,15 +48,22 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
+    
     m_DriveTrain_Subsys = DriveTrain_Subsys.getInstance();
     m_Elevator_Subsys = Elevator_Subsys.getInstance();
     m_Intake_Subsys = Intake_Subsys.getInstance();
     m_IntakeAngle_Subsys = IntakeAngle_Subsys.getInstance();
-    m_TalonConfigurer = E3Talon.getInstance();
+    m_oi = new OI();
+
+
+    //m_TalonConfigurer = E3Talon.getInstance();
     m_chooser.addDefault("Default Auto", new ExampleCommand());
+    m_driveChooser.addDefault("Solo Driver", Drivetype.SOLO);
+    m_driveChooser.addObject("Duo's", Drivetype.DUO);
+    SmartDashboard.putData("Drive Mode", m_driveChooser);
     // chooser.addObject("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    autCommand = new PIDDriveCommand();
   }
 
   /**
@@ -95,7 +105,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    m_autonomousCommand = new PIDDriveCommand();
+    
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -108,6 +119,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+    m_DriveTrain_Subsys.resetEncoders(0, 10);
   }
 
   /**
@@ -116,6 +128,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    //autCommand.start();
   }
 
   @Override
@@ -127,6 +140,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_oi.setDrivertype(m_driveChooser.getSelected());
+    m_oi.setDriver(m_driveChooser.getSelected());
+    m_DriveTrain_Subsys.TeleopInit();
+    m_DriveTrain_Subsys.resetEncoders(0, 100);
   }
 
   /**
