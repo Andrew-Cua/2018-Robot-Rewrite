@@ -17,13 +17,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
 
-/**
- * Add your docs here.
- */
 public class DriveTrain_Subsys extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
 
   public E3Talon frontLeftTalon,
            backLeftTalon,
@@ -43,23 +37,14 @@ public class DriveTrain_Subsys extends Subsystem {
      frontLeftTalon.setInverted(true);
      backLeftTalon.setInverted(true);
 
-     //backLeftTalon.set(ControlMode.Follower,frontLeftTalon.getDeviceID());
-     //backRightTalon.set(ControlMode.Follower, frontRightTalon.getDeviceID());
-
      initEncoders(0, 100);
      setPID(0.001, 0.001, 0, 0, 100);
-     //Robot.m_TalonConfigurer.configTalon(frontLeftTalon);
-     //Robot.m_TalonConfigurer.configTalon(backLeftTalon);
-     //Robot.m_TalonConfigurer.configTalon(frontRightTalon);
-     //Robot.m_TalonConfigurer.configTalon(backRightTalon);
 
    }
 
 
    public void drive(double yVal, double xVal)
    {
-    // double yVal   = Robot.m_oi.getDriveController().getY(Hand.kLeft);
-     //double xVal   = Robot.m_oi.getDriveController().getX(Hand.kRight);
 
      double sensFactor = 0.75D;
 
@@ -68,16 +53,12 @@ public class DriveTrain_Subsys extends Subsystem {
 
      double leftPower =  yValPrime - xValPrime;
      double rightPower = yValPrime + xValPrime;
+
      if(Robot.m_oi.getDriveController().getAButton())
-      resetEncoders(0, 100);
+        resetEncoders(0, 100);
 
      frontLeftTalon.set(ControlMode.PercentOutput,leftPower);
      frontRightTalon.set(ControlMode.PercentOutput, rightPower);
-     printEncoderValue();
-     //System.out.println(leftPower);
-     //System.out.println(rightPower);
-     
-     
    }
 
   public void drivePID(double inches)
@@ -133,6 +114,17 @@ public class DriveTrain_Subsys extends Subsystem {
      //System.out.println(pulseWidthPositionLeft+": "+ pulseWidthPositionLeft/(1024*4));
      int pulseWidthPositionRight = backRightTalon.getSensorCollection().getQuadraturePosition();
      System.out.println(pulseWidthPositionRight+": "+ pulseWidthPositionRight/(1024*4));
+   }
+
+   public void powerMotors()
+   {
+     frontLeftTalon.set(-1);
+     frontRightTalon.set(-1);
+   }
+   public void noPower()
+   {
+     frontLeftTalon.set(0);
+     frontRightTalon.set(0);
    }
 
    public static DriveTrain_Subsys getInstance()

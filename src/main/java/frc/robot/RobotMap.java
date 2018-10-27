@@ -31,7 +31,7 @@ public class RobotMap {
 
   public static int elevatorMotor = 20;
 
-  public static int intakeAngleMotor = 30;
+  public static int intakeAngleMotor = 2;
 
   public static int leftintakeMotor = 0,
                     rightIntakeMotor = 1;

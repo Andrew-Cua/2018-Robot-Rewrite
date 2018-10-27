@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.util.*;
+import frc.robot.commands.*;
 
 
 
@@ -20,14 +21,16 @@ import frc.robot.util.*;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  private Drivetype drive = Drivetype.SOLO;
+  private Drivetype drive = Drivetype.DUO;
 
+  public Button collectBoxButton  = new JoystickButton(getDriveController(), 5),
+  shootBoxButton    = new JoystickButton(getDriveController(), 6),
+  raiseIntakeButton = new JoystickButton(getDriveController(), 4),
+  lowerIntakeButton = new JoystickButton(getDriveController(), 1);
+ 
   public OI()
   {
-    //collectBoxButton.whileHeld(new CollectBoxCommand());
-    //shootBoxButton.whileHeld(new ShootBoxCommand());
-    //raiseIntakeButton.whileHeld(new RaiseIntakeCommand());
-    //lowerIntakeButton.whileHeld(new LowerIntakeCommand());
+    setDriver(Drivetype.DUO);
     //PIDButton.whenPressed(new PIDDriveCommand());
   }
   //// CREATING BUTTONS
@@ -66,10 +69,7 @@ public class OI {
               lowerIntakeButton = new JoystickButton(intakeController,1);
 public Button PIDButton = new JoystickButton(driveController, 2); */
 
-  public Button collectBoxButton,
-                shootBoxButton,
-                raiseIntakeButton,
-                lowerIntakeButton;
+ 
 
 
   public void setDriver(Drivetype drive)
@@ -79,16 +79,24 @@ public Button PIDButton = new JoystickButton(driveController, 2); */
       case SOLO:
         collectBoxButton  = new JoystickButton(driveController, 5);
         shootBoxButton    = new JoystickButton(driveController, 6);
-        raiseIntakeButton = new JoystickButton(driveController, 3);
+        raiseIntakeButton = new JoystickButton(driveController, 4);
         lowerIntakeButton = new JoystickButton(driveController, 1);
-        System.out.println("Setting Solo");
+        collectBoxButton.whileHeld(new CollectBoxCommand());
+        shootBoxButton.whileHeld(new ShootBoxCommand());
+        raiseIntakeButton.whileHeld(new RaiseIntakeCommand());
+        lowerIntakeButton.whileHeld(new LowerIntakeCommand());
+        //System.out.println("Setting Solo");
         break;
       case DUO:
         collectBoxButton  = new JoystickButton(intakeController, 5);
         shootBoxButton    = new JoystickButton(intakeController, 6);
-        raiseIntakeButton = new JoystickButton(intakeController, 3);
+        raiseIntakeButton = new JoystickButton(intakeController, 4);
         lowerIntakeButton = new JoystickButton(intakeController, 1);
-        System.out.println("Setting Duo");
+        collectBoxButton.whileHeld(new CollectBoxCommand());
+        shootBoxButton.whileHeld(new ShootBoxCommand());
+        raiseIntakeButton.whileHeld(new RaiseIntakeCommand());
+        lowerIntakeButton.whileHeld(new LowerIntakeCommand());
+        //System.out.println("Setting Duo");
         break;
     } 
   }
@@ -114,6 +122,11 @@ public Button PIDButton = new JoystickButton(driveController, 2); */
   public void setDrivertype(Drivetype drive)
   {
     this.drive = drive;
+  }
+
+  public void updateControls()
+  {
+    setDriver(getDrivetype());
   }
   
   public XboxController getDriveController()

@@ -13,24 +13,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.ActuateElevatorCommand;
 import frc.robot.util.*;
+import frc.robot.util.*;
 
 /**
  * Add your docs here.
  */
 public class Elevator_Subsys extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-  enum DriveTypes
-  {
-    SOLO,
-    DUO;
-  }
 
   public E3Talon elevatorMotor;
 
   private static Elevator_Subsys elevator_Subsys;
 
-  public DriveTypes driver;
+  public Drivetype driver;
 
   private Elevator_Subsys()
   {

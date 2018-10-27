@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.util.*;
 
 public class RaiseIntakeCommand extends Command {
   public RaiseIntakeCommand() {
@@ -26,6 +27,15 @@ public class RaiseIntakeCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    /*switch(Robot.m_oi.getDrivetype())
+    {
+      case SOLO:
+        Robot.m_oi.setDriver(Drivetype.SOLO);
+        break;
+      case DUO:
+        Robot.m_oi.setDriver(Drivetype.DUO);
+        break;
+    }*/
     Robot.m_IntakeAngle_Subsys.raiseIntake();
   }
 

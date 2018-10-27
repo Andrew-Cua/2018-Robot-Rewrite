@@ -9,8 +9,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.util.*;
 
 public class CollectBoxCommand extends Command {
+
+  Drivetype drive;
   public CollectBoxCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -20,12 +23,21 @@ public class CollectBoxCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_Intake_Subsys.stopIntake();
+   // Robot.m_Intake_Subsys.stopIntake();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    /*switch(Robot.m_oi.getDrivetype())
+    {
+      case SOLO:
+        Robot.m_oi.setDriver(Drivetype.SOLO);
+        break;
+      case DUO:
+        Robot.m_oi.setDriver(Drivetype.DUO);
+        break;
+    }*/
     Robot.m_Intake_Subsys.collectBox();
   }
 

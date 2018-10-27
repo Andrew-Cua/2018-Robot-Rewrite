@@ -9,51 +9,42 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.util.*;
 
-public class LowerIntakeCommand extends Command {
-  public LowerIntakeCommand() {
+public class autoDriveCommand extends Command {
+  public autoDriveCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_IntakeAngle_Subsys);
+    requires(Robot.m_DriveTrain_Subsys);
+    setTimeout(1.5);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_IntakeAngle_Subsys.noPower();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    /*switch(Robot.m_oi.getDrivetype())
-    {
-      case SOLO:
-        Robot.m_oi.setDriver(Drivetype.SOLO);
-        break;
-      case DUO:
-        Robot.m_oi.setDriver(Drivetype.DUO);
-        break;
-    }*/
-    Robot.m_IntakeAngle_Subsys.lowerIntake();
+    Robot.m_DriveTrain_Subsys.powerMotors();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return isTimedOut();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_DriveTrain_Subsys.noPower();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_IntakeAngle_Subsys.noPower(); 
+    Robot.m_DriveTrain_Subsys.noPower();
   }
 }

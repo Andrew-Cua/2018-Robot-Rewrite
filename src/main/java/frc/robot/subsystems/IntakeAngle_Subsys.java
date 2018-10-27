@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
@@ -22,11 +23,11 @@ public class IntakeAngle_Subsys extends Subsystem {
   // here. Call these from Commands.
 
 
-  public E3Talon angleControlMotor;
+  public Spark angleControlMotor;
   private static IntakeAngle_Subsys intakeAngle_Subsys;
   private IntakeAngle_Subsys()
   {
-    angleControlMotor = new E3Talon(RobotMap.intakeAngleMotor);
+    angleControlMotor = new Spark(RobotMap.intakeAngleMotor);
    // Robot.m_TalonConfigurer.configTalon(angleControlMotor);
   }
 

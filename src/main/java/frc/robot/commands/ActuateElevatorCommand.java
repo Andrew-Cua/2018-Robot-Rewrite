@@ -6,9 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 
@@ -27,18 +26,21 @@ public class ActuateElevatorCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    switch(Robot.m_oi.getDrivetype())
-    {
-      case DUO:
+    
+    //switch(Robot.m_oi.getDrivetype())
+    //{
+      //case DUO:
         Robot.m_Elevator_Subsys.actuateElevator(Robot.m_oi.elevatorControlDouble(Robot.m_oi.getIntakeController()));
-        System.out.println("Setting Duo Elevator");
-        break;
-      case SOLO:
-        Robot.m_Elevator_Subsys.actuateElevator(Robot.m_oi.elevatorControlDouble(Robot.m_oi.getDriveController()));
-        System.out.println("Setting Solo Elevator");
-        break;
+        //System.out.println("Setting Duo Elevator");
+        //SmartDashboard.putNumber("Elevator Power", Robot.m_oi.elevatorControlDouble(Robot.m_oi.getIntakeController()) );
+        //break;
+      //case SOLO:
+        //Robot.m_Elevator_Subsys.actuateElevator(Robot.m_oi.elevatorControlDouble(Robot.m_oi.getDriveController()));
+        //System.out.println("Setting Solo Elevator");
+        //SmartDashboard.putNumber("Elevator Power", Robot.m_oi.elevatorControlDouble(Robot.m_oi.getDriveController()));
+        //break;
 
-    }
+    //}
     
 
   }

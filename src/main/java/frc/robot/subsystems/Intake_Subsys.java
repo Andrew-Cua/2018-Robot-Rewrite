@@ -49,6 +49,7 @@ public class Intake_Subsys extends Subsystem {
     rightIntakeMotor.set(0);
   }
 
+
   public static Intake_Subsys getInstance()
   {
     if(intake == null)

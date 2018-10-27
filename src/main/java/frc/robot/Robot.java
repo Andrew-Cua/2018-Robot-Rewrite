@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.PIDDriveCommand;
+import frc.robot.commands.autoDriveCommand;
 import frc.robot.subsystems.DriveTrain_Subsys;
 import frc.robot.subsystems.Elevator_Subsys;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -40,7 +41,7 @@ public class Robot extends TimedRobot {
   public static Command autCommand;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  SendableChooser<Drivetype> m_driveChooser = new SendableChooser<Drivetype>();
+  //SendableChooser<Drivetype> m_driveChooser = new SendableChooser<Drivetype>();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -57,13 +58,14 @@ public class Robot extends TimedRobot {
 
 
     //m_TalonConfigurer = E3Talon.getInstance();
-    m_chooser.addDefault("Default Auto", new ExampleCommand());
-    m_driveChooser.addDefault("Solo Driver", Drivetype.SOLO);
-    m_driveChooser.addObject("Duo's", Drivetype.DUO);
-    SmartDashboard.putData("Drive Mode", m_driveChooser);
+    //m_driveChooser.addDefault("Solo Driver", Drivetype.SOLO);
+    //m_driveChooser.addObject("Duo's", Drivetype.DUO);
+    //SmartDashboard.putData("Drive Mode", m_driveChooser);
     // chooser.addObject("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     autCommand = new PIDDriveCommand();
+    //m_oi.setDrivertype(m_driveChooser.getSelected());
+    //m_oi.setDriver(m_driveChooser.getSelected());
   }
 
   /**
@@ -105,7 +107,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = new PIDDriveCommand();
+    m_autonomousCommand = new autoDriveCommand();
     
 
     /*
@@ -140,8 +142,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_oi.setDrivertype(m_driveChooser.getSelected());
-    m_oi.setDriver(m_driveChooser.getSelected());
+    //m_oi.setDrivertype(m_driveChooser.getSelected());
+    //m_oi.setDriver(m_driveChooser.getSelected());
     m_DriveTrain_Subsys.TeleopInit();
     m_DriveTrain_Subsys.resetEncoders(0, 100);
   }
@@ -152,6 +154,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    //m_Intake_Subsys.rightIntakeMotor.set(1);
   }
 
   /**
